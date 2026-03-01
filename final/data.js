@@ -46,7 +46,7 @@ window.SITE_DATA = {
   "ks_record": [
     {
       "result": "W",
-      "opponent": "Robert Kopa",
+      "opponent": "Robert Kopa - Bout 3",
       "method": "TKO / Technical Knockout Win",
       "rd": "3",
       "date": "Nov 2025",
