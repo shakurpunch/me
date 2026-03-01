@@ -163,22 +163,30 @@
     .train-note{margin-top:1.5rem;font-size:0.72rem;color:var(--muted);line-height:1.8;border-left:2px solid rgba(201,168,76,0.3);padding-left:1rem;}
     .train-cta{margin-top:2rem;display:inline-flex;gap:1rem;align-items:center;}
 
-    /* REVIEWS */
+    /* REVIEWS — CAROUSEL */
     #reviews{background:var(--bg2);padding:8rem 3rem;}
-    .reviews-inner{max-width:1200px;margin:0 auto;}
+    .reviews-inner{max-width:860px;margin:0 auto;}
     .reviews-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1rem;}
-    .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
-    .review-card{background:rgba(255,255,255,0.02);border:1px solid rgba(201,168,76,0.12);padding:2rem;position:relative;transition:border-color 0.3s,background 0.3s;}
-    .review-card:hover{border-color:rgba(201,168,76,0.35);background:rgba(201,168,76,0.03);}
-    .review-stars{color:var(--gold);font-size:0.9rem;letter-spacing:0.15em;margin-bottom:1rem;}
-    .review-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;line-height:1.7;color:rgba(245,240,232,0.8);font-style:italic;margin-bottom:1.5rem;}
-    .review-text::before{content:'\201C';font-size:3rem;color:rgba(201,168,76,0.2);line-height:0;vertical-align:-0.6rem;margin-right:0.3rem;font-family:'Cormorant Garamond',serif;}
-    .review-author{display:flex;align-items:center;gap:0.8rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1rem;}
-    .review-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(201,168,76,0.3),rgba(201,168,76,0.1));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gold);flex-shrink:0;}
+    .reviews-nav{display:flex;align-items:center;gap:0.8rem;}
+    .reviews-nav-btn{width:44px;height:44px;border:1px solid rgba(201,168,76,0.35);background:transparent;color:var(--gold);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s,border-color 0.2s;font-family:'Barlow Condensed',sans-serif;flex-shrink:0;}
+    .reviews-nav-btn:hover{background:rgba(201,168,76,0.1);border-color:var(--gold);}
+    .reviews-nav-btn:disabled{opacity:0.25;cursor:default;pointer-events:none;}
+    .reviews-counter{font-size:0.65rem;letter-spacing:0.25em;color:var(--muted);min-width:3.5rem;text-align:center;}
+    .reviews-viewport{overflow:hidden;position:relative;}
+    .reviews-track{display:flex;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);}
+    .review-card{min-width:100%;background:rgba(255,255,255,0.02);border:1px solid rgba(201,168,76,0.12);padding:2.5rem;position:relative;box-sizing:border-box;}
+    .review-stars{color:var(--gold);font-size:0.9rem;letter-spacing:0.15em;margin-bottom:1.2rem;}
+    .review-text{font-family:'Cormorant Garamond',serif;font-size:1.15rem;line-height:1.8;color:rgba(245,240,232,0.85);font-style:italic;margin-bottom:2rem;}
+    .review-text::before{content:'\201C';font-size:4rem;color:rgba(201,168,76,0.2);line-height:0;vertical-align:-0.8rem;margin-right:0.3rem;font-family:'Cormorant Garamond',serif;}
+    .review-author{display:flex;align-items:center;gap:0.8rem;border-top:1px solid rgba(255,255,255,0.05);padding-top:1.2rem;}
+    .review-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,rgba(201,168,76,0.3),rgba(201,168,76,0.1));display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--gold);flex-shrink:0;}
     .review-author-name{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.06em;}
     .review-author-role{font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);}
-    .review-tag{position:absolute;top:1rem;right:1rem;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:0.2rem 0.5rem;}
-    .reviews-empty{text-align:center;padding:4rem;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;grid-column:span 3;}
+    .review-tag{position:absolute;top:1.2rem;right:1.2rem;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:0.2rem 0.5rem;}
+    .reviews-dots{display:flex;justify-content:center;gap:0.5rem;margin-top:1.5rem;}
+    .reviews-dot{width:6px;height:6px;border-radius:50%;background:rgba(201,168,76,0.25);border:none;cursor:pointer;padding:0;transition:background 0.2s,transform 0.2s;}
+    .reviews-dot.active{background:var(--gold);transform:scale(1.3);}
+    .reviews-empty{text-align:center;padding:4rem;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;}
 
     /* CONTACT */
     #contact{background:var(--bg);padding:8rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
@@ -226,8 +234,6 @@
       .bio-image-wrap{min-height:400px;}
       .gallery-grid{grid-template-columns:1fr 1fr;}
       .gallery-item:first-child{grid-row:span 1;grid-column:span 2;}
-      .reviews-grid{grid-template-columns:1fr;}
-      .reviews-empty{grid-column:span 1;}
       nav{padding:1.2rem 1.5rem;}
       .nav-links{gap:0.7rem;}
       .nav-links a{font-size:0.58rem;}
@@ -239,9 +245,9 @@
       .fight-actions{grid-column:1/-1;display:flex;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;}
       .fight-urgency{margin-top:0;}
       .train-accent-bar{display:none;}
-      .reviews-header{flex-direction:column;align-items:flex-start;}
+      .reviews-header{flex-direction:column;align-items:flex-start;gap:1.2rem;}
+      .reviews-nav{align-self:flex-start;}
     }
-    @media(max-width:600px){.reviews-grid{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
@@ -376,8 +382,16 @@
   <div class="reviews-inner">
     <div class="reviews-header reveal">
       <div><div class="section-label">What They Say</div><h2 class="section-title">Client<br>Reviews</h2></div>
+      <div class="reviews-nav">
+        <button class="reviews-nav-btn" id="rev-prev" aria-label="Previous review">&#8592;</button>
+        <span class="reviews-counter" id="rev-counter">1 / 1</span>
+        <button class="reviews-nav-btn" id="rev-next" aria-label="Next review">&#8594;</button>
+      </div>
     </div>
-    <div class="reviews-grid reveal" id="reviews-grid"></div>
+    <div class="reviews-viewport reveal">
+      <div class="reviews-track" id="reviews-track"></div>
+    </div>
+    <div class="reviews-dots" id="reviews-dots"></div>
   </div>
 </section>
 
@@ -657,16 +671,31 @@ function ls(key, fallback) {
   if(fc.copy) document.getElementById('footer-copy').textContent=fc.copy;
 })();
 
-/* ── REVIEWS ── */
+/* ── REVIEWS CAROUSEL ── */
 (function(){
   const reviews = ls('ks_reviews', [
     {id:'seed-001',name:'Olli',role:'Director — Finance',company:'',stars:5,
      text:"I've been training with Shakur for the past four years and in short he is an excellent coach. He's incredibly knowledgeable about boxing, extremely disciplined, and one of the hardest working people I know. Every session is structured, focused, and pushes me to improve. What really sets him apart is his passion for the sport — he genuinely cares about your progress and development. On top of that, he's just a great guy to be around, which makes training with him something I genuinely look forward to. I highly recommend him to anyone serious about improving their boxing.",
      tag:'Monthly Coaching',approved:true,date:'2025-01-01T00:00:00.000Z'}
   ]).filter(r => r.approved);
-  const el = document.getElementById('reviews-grid');
-  if (!reviews.length) { el.innerHTML = '<div class="reviews-empty">Reviews coming soon — be the first to train with The Sword.</div>'; return; }
-  el.innerHTML = reviews.map(r => `
+
+  const track   = document.getElementById('reviews-track');
+  const dotsEl  = document.getElementById('reviews-dots');
+  const counter = document.getElementById('rev-counter');
+  const btnPrev = document.getElementById('rev-prev');
+  const btnNext = document.getElementById('rev-next');
+
+  if (!reviews.length) {
+    track.innerHTML = '<div class="review-card"><div class="reviews-empty">Reviews coming soon — be the first to train with The Sword.</div></div>';
+    dotsEl.style.display = 'none';
+    btnPrev.style.display = btnNext.style.display = 'none';
+    return;
+  }
+
+  let cur = 0;
+
+  // Build cards
+  track.innerHTML = reviews.map(r => `
     <div class="review-card">
       ${r.tag ? `<div class="review-tag">${r.tag}</div>` : ''}
       <div class="review-stars">${'★'.repeat(r.stars||5)}${'☆'.repeat(5-(r.stars||5))}</div>
@@ -679,6 +708,43 @@ function ls(key, fallback) {
         </div>
       </div>
     </div>`).join('');
+
+  // Build dots
+  dotsEl.innerHTML = reviews.map((_,i) =>
+    `<button class="reviews-dot${i===0?' active':''}" data-i="${i}" aria-label="Review ${i+1}"></button>`
+  ).join('');
+
+  // Hide nav if only 1 review
+  if (reviews.length === 1) {
+    btnPrev.style.display = btnNext.style.display = 'none';
+    dotsEl.style.display = 'none';
+  }
+
+  function goTo(idx) {
+    cur = (idx + reviews.length) % reviews.length;
+    track.style.transform = `translateX(-${cur * 100}%)`;
+    counter.textContent = `${cur + 1} / ${reviews.length}`;
+    btnPrev.disabled = false;
+    btnNext.disabled = false;
+    dotsEl.querySelectorAll('.reviews-dot').forEach((d,i) => d.classList.toggle('active', i===cur));
+  }
+
+  btnPrev.addEventListener('click', () => goTo(cur - 1));
+  btnNext.addEventListener('click', () => goTo(cur + 1));
+  dotsEl.addEventListener('click', e => {
+    if (e.target.dataset.i !== undefined) goTo(parseInt(e.target.dataset.i));
+  });
+
+  // Touch / swipe support
+  let tx = 0;
+  track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  track.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) goTo(dx < 0 ? cur + 1 : cur - 1);
+  }, {passive:true});
+
+  // Init counter
+  counter.textContent = `1 / ${reviews.length}`;
 })();
 
 /* ── CONTACT FORM ── */
