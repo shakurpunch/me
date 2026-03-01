@@ -464,7 +464,7 @@
 
         <div style="display:flex;gap:1rem;margin-bottom:1.5rem;align-items:flex-start;">
           <div style="width:28px;height:28px;background:var(--gold);color:#000;font-family:'Bebas Neue',sans-serif;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
-          <div><p style="font-size:0.82rem;color:var(--muted);line-height:1.7;"><strong style="color:var(--text)">Create a Google Sheet</strong><br>Go to sheets.google.com → New → name it "Khalid — Enquiries"<br>Add headers in Row 1: <code style="color:var(--gold)">Timestamp | Name | Email | Phone | Enquiry Type | Message</code></p></div>
+          <div><p style="font-size:0.82rem;color:var(--muted);line-height:1.7;"><strong style="color:var(--text)">Create a Google Sheet</strong><br>Go to sheets.google.com → New → name it "Khalid — Enquiries"<br>Add headers in Row 1: <code style="color:var(--gold)">Timestamp | Name | Email | Enquiry Type | Message</code></p></div>
         </div>
         <div style="display:flex;gap:1rem;margin-bottom:1.5rem;align-items:flex-start;">
           <div style="width:28px;height:28px;background:var(--gold);color:#000;font-family:'Bebas Neue',sans-serif;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
@@ -472,7 +472,7 @@
           <div class="code">function doPost(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var data = JSON.parse(e.postData.contents);
-  sheet.appendRow([new Date().toLocaleString('en-SG'),data.name||'',data.email||'',data.phone||'',data.type||'',data.message||'']);
+  sheet.appendRow([new Date().toLocaleString('en-SG'),data.name||'',data.email||'',data.type||'',data.message||'']);
   return ContentService.createTextOutput(JSON.stringify({result:'success'})).setMimeType(ContentService.MimeType.JSON);
 }</div></div>
         </div>
@@ -482,8 +482,7 @@
         </div>
         <div style="display:flex;gap:1rem;margin-bottom:1.5rem;align-items:flex-start;">
           <div style="width:28px;height:28px;background:var(--gold);color:#000;font-family:'Bebas Neue',sans-serif;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
-          <div style="flex:1;"><p style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:0.5rem;"><strong style="color:var(--text)">Paste URL into index.html</strong><br>Find the line <code style="color:var(--gold)">const SHEETS_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';</code> and replace the placeholder.</p>
-          <p style="font-size:0.78rem;color:var(--muted);line-height:1.7;border-left:2px solid rgba(201,168,76,0.35);padding-left:0.8rem;margin-top:0.7rem;"><strong style="color:var(--gold)">Already had this set up?</strong> You just need to: (1) insert a new column D in your existing sheet and label it <code style="color:var(--gold)">Phone</code> — shifting Enquiry Type and Message to E and F — then (2) go back to Apps Script, replace the old code with the new code above, and redeploy as a <strong style="color:var(--text)">New Deployment</strong>.</p></div>
+          <div style="flex:1;"><p style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:0.5rem;"><strong style="color:var(--text)">Paste URL into index.html</strong><br>Find the line <code style="color:var(--gold)">const SHEETS_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';</code> and replace the placeholder.</p></div>
         </div>
       </div>
     </div>
@@ -663,12 +662,15 @@ function renderVids(){
         ${v.caption?`<div class="dr-preview">${v.caption}</div>`:''}
       </div>
       <div class="btn-row">
+        ${i>0?`<button class="btn-sm grey" onclick="moveVid(${i},-1)">↑ Up</button>`:''}
+        ${i<vids.length-1?`<button class="btn-sm grey" onclick="moveVid(${i},1)">↓ Down</button>`:''}
         <button class="btn-sm" onclick="editVid(${i})">Edit</button>
         <button class="btn-danger" onclick="delVid(${i})">Delete</button>
       </div>
     </div>`;
   }).join('');
 }
+function moveVid(i,dir){const a=get('ks_videos')||[];const ni=i+dir;if(ni<0||ni>=a.length)return;[a[i],a[ni]]=[a[ni],a[i]];set('ks_videos',a);renderVids();toast('✓ Reordered');}
 function saveVideo(){
   const label=document.getElementById('vid-label').value.trim();
   if(!label){toast('⚠ Tab label required');return;}
@@ -709,11 +711,14 @@ function renderRecord(){
         <div class="dr-meta">${r.method||'—'} · Rd ${r.rd||'—'} · ${r.date||'—'} · ${r.location||'—'}</div>
       </div>
       <div class="btn-row">
+        ${i>0?`<button class="btn-sm grey" onclick="moveRecord(${i},-1)">↑ Up</button>`:''}
+        ${i<rows.length-1?`<button class="btn-sm grey" onclick="moveRecord(${i},1)">↓ Down</button>`:''}
         <button class="btn-sm" onclick="editRecord(${i})">Edit</button>
         <button class="btn-danger" onclick="delRecord(${i})">Delete</button>
       </div>
     </div>`).join('');
 }
+function moveRecord(i,dir){const a=get('ks_record')||[];const ni=i+dir;if(ni<0||ni>=a.length)return;[a[i],a[ni]]=[a[ni],a[i]];set('ks_record',a);renderRecord();toast('✓ Reordered');}
 function saveRecord(){
   const opp=document.getElementById('rec-opponent').value.trim();
   if(!opp){toast('⚠ Opponent required');return;}
