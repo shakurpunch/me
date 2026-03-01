@@ -11,14 +11,14 @@ window.SITE_DATA = {
     "koRate": "67%"
   },
   "ks_bio": {
-    "heading": "Forged to\nFight",
+    "heading": "Forged toFight",
     "para1": "Born Sivaraj Manickam and fighting out of Singapore, Khalid Shakur made his professional debut on 15 February 2025 — entering the middleweight division with precision, purpose, and nothing to lose. At 29, he arrived with the sharpness of a seasoned competitor and a hunger no younger fighter could match.",
     "para2": "Three fights in, three wins — including two knockouts — Shakur is already ranked #1 in Singapore and cutting through the region's middleweight scene with the controlled aggression that earned him his name: The Sword.",
     "nationality": "Singaporean",
     "weight": "Middleweight",
-    "prevTrainer": "— Confirm",
-    "trainer": "— Confirm",
-    "stance": "— Confirm",
+    "prevTrainer": "Mohammed Ridhwan",
+    "trainer": "Danilo Creati",
+    "stance": "Orthodox",
     "proSince": "2025"
   },
   "ks_videos": [
@@ -182,6 +182,50 @@ window.SITE_DATA = {
   },
   "ks_reviews": [
     {
+      "id": "1772367884987",
+      "name": "Sanjey Chandran",
+      "company": "Investment Director @ CSD Ventures | Family Office, Start-up Leadership",
+      "role": "Training Client",
+      "stars": 5,
+      "text": "If you're looking for a boxing trainer who is knowledgeable, passionate, and dedicated to helping you achieve your goals, then look no further than Shakur. I had the pleasure of working with Shakur for several months and I can confidently say that he is one of the best trainers out there.\nFirst of all, Shakur has an extensive background in boxing. He has trained with some of the top coaches in the sport and has competed at a high level himself.\nThis experience shines through in his coaching, as he is able to break down techniques and strategies in a way that is easy to understand and apply.\nBut what really sets Shakur apart is his passion for the sport and his dedication to his clients. He truly cares about helping his clients reach their goals, and he goes above and beyond to ensure that they are making progress. Whether it's through personalized training plans, detailed feedback on technique, or just being there to offer support and encouragement, Shakur is always willing to do whatever it takes to help his clients succeed.\nWorking with Shakur was not only effective but also enjoyable. He has a great personality and is easy to get along with, which makes training sessions something to look forward to rather than dread. He also knows how to push his clients without pushing them too far, which is a delicate balance that not all trainers are able to strike.\nOverall, I would highly recommend Shakur to anyone looking for a boxing coach. He has the knowledge, experience, and passion to help you achieve your goals and become the best boxer you can be. If you're serious about the sport, then you owe it to yourself to work with someone like Shakur.",
+      "tag": "",
+      "approved": true,
+      "date": "2026-03-01T12:24:44.987Z"
+    },
+    {
+      "id": "1772367851146",
+      "name": "Christiaan Ballard",
+      "company": "Partner @ Riviera Partners || GCC",
+      "role": "Training Client",
+      "stars": 5,
+      "text": "Shakur is an exceptional boxing trainer who is super attentive, great to train with, flexible, and supportive.\nAs a first-timer, I was a bit nervous about starting boxing, but Shakur was incredibly patient and encouraging throughout the process. He always took the time to explain the techniques and movements and made sure that I understood them before moving on.\nOne of the things I appreciated most about Shakur was his adaptability. Whether it was changing up the training routine to keep things fresh or modifying exercises to accommodate any injuries or physical limitations, Shakur always found a way to make the session work for me.\nAs a woman, I also appreciated Shakur's support and encouragement in building my confidence as a boxer.\nHe created a safe environment where I felt comfortable pushing myself and trying new things.\nHe's just the best- I've recommended him to many of my friends and they can confidently say the same!",
+      "tag": "",
+      "approved": true,
+      "date": "2026-03-01T12:24:11.146Z"
+    },
+    {
+      "id": "1772367801148",
+      "name": "Terry",
+      "company": "APAC Management Executive",
+      "role": "Training Client",
+      "stars": 5,
+      "text": "Been training with Shakur for about 6 months 1 to 1 on boxing basics. Came with some bad habits from another gym, Shakur was patient enough to correct my mistakes and take things bit by bit. Great coach with an eye for details ... trust him to teach you the right stuff about boxing.",
+      "tag": "",
+      "approved": true,
+      "date": "2026-03-01T12:23:21.148Z"
+    },
+    {
+      "id": "1772367727563",
+      "name": "Alexis",
+      "company": "Associate Director at EY",
+      "role": "Training Client",
+      "stars": 5,
+      "text": "I met Shakur while trying boxing as a new sport when I just arrived in Singapore 6 years ago. I immediately liked his coaching and human style and he has been my coach and friend since then, first in gym and then as a personal trainer, for boxing and fitness. His positivity, passion and professionalism helped me achieve my goals in a fun and friendly atmosphere, I recommend Shakur 100%.",
+      "tag": "",
+      "approved": true,
+      "date": "2026-03-01T12:22:39.355Z"
+    },
+    {
       "id": "seed-001",
       "name": "Olli",
       "role": "Director — Finance",
@@ -201,8 +245,8 @@ window.SITE_DATA = {
   },
   "ks_socials": {
     "insta": "https://www.instagram.com/khalidshakur__",
-    "linkedin": "https://www.linkedin.com/in/khalidshakur",
-    "youtube": "https://www.youtube.com/@khalidshakur",
+    "linkedin": "https://sg.linkedin.com/in/khalid-shakur-368980271",
+    "youtube": "https://www.youtube.com/@ShakurPunch",
     "tiktok": "",
     "facebook": ""
   },
