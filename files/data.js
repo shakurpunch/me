@@ -192,9 +192,9 @@ window.SITE_DATA = {
   ],
   "ks_contact": {
     "blurb": "For sponsorships, fight promotions, media appearances, training bookings, and all professional enquiries — reach the team directly.",
-    "management": "Sword Camp Management, SG",
-    "email": "contact@khalidshakur.com",
-    "promoter": "One Championship Boxing"
+    "management": "Khalid Shakur",
+    "email": "shakurpunch [at] gmail [dot] com",
+    "promoter": "Brother boxing promotion, Muay Champ Fitness"
   },
   "ks_socials": {
     "insta": "https://www.instagram.com/khalidshakur__",
@@ -204,6 +204,6 @@ window.SITE_DATA = {
     "facebook": ""
   },
   "ks_footer": {
-    "copy": "© 2025 Khalid Shakur Boxing · Singapore. All rights reserved."
+    "copy": "© 2026 Khalid Shakur Boxing · Singapore. All rights reserved."
   }
 };
