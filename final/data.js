@@ -47,25 +47,25 @@ window.SITE_DATA = {
     {
       "result": "W",
       "opponent": "Robert Kopa",
-      "method": "KO / Knockout Win",
-      "rd": "—",
-      "date": "2025",
+      "method": "TKO / Technical Knockout Win",
+      "rd": "3",
+      "date": "Nov 2025",
       "location": "Singapore"
     },
     {
       "result": "W",
       "opponent": "BENNY TAMAELA -  Bout 2",
-      "method": "— Verify on BoxRec",
-      "rd": "—",
-      "date": "2025",
+      "method": "Unanimous Decision",
+      "rd": "4",
+      "date": "JUL 2025",
       "location": "Singapore"
     },
     {
       "result": "W",
-      "opponent": "Opponent — Debut",
+      "opponent": "MUHAMMED ALFARIZI - Bout 1 - Debut",
       "method": "KO / Knockout Win",
-      "rd": "—",
-      "date": "15 Feb 2025",
+      "rd": "2",
+      "date": "Feb 2025",
       "location": "Singapore"
     }
   ],
