@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="data.js"></script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
     :root{--gold:#C9A84C;--gold-light:#e8c96d;--red:#B91C1C;--bg:#080808;--bg2:#0f0f0f;--text:#F5F0E8;--muted:#7a7268;}
@@ -160,8 +161,8 @@
     #reviews{background:var(--bg2);padding:8rem 3rem;}
     .reviews-inner{max-width:1200px;margin:0 auto;}
     .reviews-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1rem;}
-    .reviews-grid{columns:3;gap:1.5rem;}
-    .review-card{break-inside:avoid;background:rgba(255,255,255,0.02);border:1px solid rgba(201,168,76,0.12);padding:2rem;margin-bottom:1.5rem;position:relative;transition:border-color 0.3s,background 0.3s;}
+    .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+    .review-card{background:rgba(255,255,255,0.02);border:1px solid rgba(201,168,76,0.12);padding:2rem;position:relative;transition:border-color 0.3s,background 0.3s;}
     .review-card:hover{border-color:rgba(201,168,76,0.35);background:rgba(201,168,76,0.03);}
     .review-stars{color:var(--gold);font-size:0.9rem;letter-spacing:0.15em;margin-bottom:1rem;}
     .review-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;line-height:1.7;color:rgba(245,240,232,0.8);font-style:italic;margin-bottom:1.5rem;}
@@ -171,7 +172,7 @@
     .review-author-name{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.06em;}
     .review-author-role{font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);}
     .review-tag{position:absolute;top:1rem;right:1rem;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;border:1px solid rgba(201,168,76,0.25);color:var(--gold);padding:0.2rem 0.5rem;}
-    .reviews-empty{text-align:center;padding:4rem;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;}
+    .reviews-empty{text-align:center;padding:4rem;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;grid-column:span 3;}
 
     /* CONTACT */
     #contact{background:var(--bg);padding:8rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
@@ -219,7 +220,7 @@
       .bio-image-wrap{min-height:400px;}
       .gallery-grid{grid-template-columns:1fr 1fr;}
       .gallery-item:first-child{grid-row:span 1;grid-column:span 2;}
-      .reviews-grid{columns:1;}
+      .reviews-grid{grid-template-columns:1fr;}
       .reviews-empty{grid-column:span 1;}
       nav{padding:1.2rem 1.5rem;}
       .nav-links{gap:0.7rem;}
@@ -232,9 +233,8 @@
       .fight-ticket-btn{grid-column:span 2;}
       .train-accent-bar{display:none;}
       .reviews-header{flex-direction:column;align-items:flex-start;}
-      .reviews-grid{columns:1;}
     }
-    @media(max-width:600px){.reviews-grid{columns:1;}}
+    @media(max-width:600px){.reviews-grid{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
@@ -369,7 +369,6 @@
   <div class="reviews-inner">
     <div class="reviews-header reveal">
       <div><div class="section-label">What They Say</div><h2 class="section-title">Client<br>Reviews</h2></div>
-      <div id="reviews-stats" style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:var(--muted);display:flex;gap:1.5rem;align-items:center;"></div>
     </div>
     <div class="reviews-grid reveal" id="reviews-grid"></div>
   </div>
@@ -382,7 +381,7 @@
     <h2>Work<br>With <em>The Sword</em></h2>
     <p class="contact-text" id="contact-blurb">For sponsorships, fight promotions, media appearances, training bookings, and all professional enquiries — reach the team directly.</p>
     <div class="contact-info-item"><span class="contact-info-label">Management</span><span class="contact-info-val" id="ci-management">Sword Camp Management, SG</span></div>
-    <div class="contact-info-item"><span class="contact-info-label">Email</span><span class="contact-info-val" id="ci-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="98ecfdf9f5d8f3f0f9f4f1fcebf0f9f3edeafaf7e0f1f6ffb6fbf7f5">[email&#160;protected]</a></span></div>
+    <div class="contact-info-item"><span class="contact-info-label">Email</span><span class="contact-info-val" id="ci-email">contact@khalidshakur.com</span></div>
     <div class="contact-info-item"><span class="contact-info-label">Promoter</span><span class="contact-info-val" id="ci-promoter">One Championship Boxing</span></div>
   </div>
   <div class="contact-right reveal">
@@ -427,48 +426,16 @@
 </footer>
 
 <script>
-/* ── DATA LOADING ── */
-/* Fetches data.json first; falls back to defaults if not available.
-   All sections run after data is loaded. */
-
-const DEFAULTS = {
-  ks_hero: {nickname:'"The Sword"',eyebrow:'Professional Boxer · Singapore · Middleweight',wins:3,losses:0,draws:0,kos:2,koRate:'67%'},
-  ks_bio: {heading:'Forged to\nFight',para1:"Born Sivaraj Manickam and fighting out of Singapore, Khalid Shakur made his professional debut on 15 February 2025 — entering the middleweight division with precision, purpose, and nothing to lose.",para2:"Three fights in, three wins — including two knockouts — Shakur is already ranked #1 in Singapore and cutting through the region's middleweight scene with the controlled aggression that earned him his name: The Sword.",born:'Singapore · 1996',weight:'Middleweight',reach:'— Confirm',trainer:'— Confirm',stance:'— Confirm',proSince:'2025'},
-  ks_videos: [{label:'Highlights',ytUrl:'https://www.youtube.com/watch?v=RtI7bBzcPpQ',caption:'Khalid "The Sword" Shakur — Career Highlights · 2025'},{label:'Bout 1 — Debut',ytUrl:'',caption:'Pro Debut · KO Win · 15 February 2025 · Singapore'},{label:'Bout 2',ytUrl:'',caption:'Bout 2 · Win · 2025 · Singapore'},{label:'Bout 3',ytUrl:'',caption:'Bout 3 · KO Win · 2025 · Singapore'}],
-  ks_record: [{result:'W',opponent:'Robert Kopa',method:'KO / Knockout Win',rd:'—',date:'2025',location:'Singapore'},{result:'W',opponent:'Opponent — Bout 2',method:'— Verify on BoxRec',rd:'—',date:'2025',location:'Singapore'},{result:'W',opponent:'Opponent — Debut',method:'KO / Knockout Win',rd:'—',date:'15 Feb 2025',location:'Singapore'}],
-  ks_fights: [],
-  ks_gallery: [{url:'images/gallery-1.jpg',alt:'Khalid Shakur — Singapore flag and skyline'},{url:'images/gallery-2.jpg',alt:'Khalid Shakur — Fight night walkout'},{url:'images/gallery-3.jpg',alt:'Khalid Shakur — Post-fight victory'},{url:'images/gallery-4-new.jpg',alt:'Khalid Shakur — Training at TDV Boxing Gym'},{url:'images/train-action.jpg',alt:'Khalid Shakur — Bag work'}],
-  ks_titles: {tagline:'Sharp. Precise. Undefeated.',cards:[{icon:'🥊',org:'BoxRec',name:'#1 Ranked Middleweight in Singapore',year:'2025 — Present'},{icon:'⭐',org:'Record',name:'Undefeated — 3 Wins, 0 Losses',year:'2025'},{icon:'💥',org:'KO Rate',name:'67% Knockout Ratio — 2 KOs from 3 Bouts',year:'2025'}]},
-  ks_training: {intro:"Train under Singapore's #1 ranked middleweight. Every session is built around your goals.",quote:'"The sword is only as sharp as the discipline behind it. Every session, every round — that\'s where champions are made."',note:"Sessions by appointment only. Available weekday evenings & weekend mornings.\n📍 Location: [Gym Name & Address — Confirm] · MRT: [Nearest Station — Confirm]",packages:[{name:'Single Session',featured:false,badge:'',price:'SGD 150',unit:'/ session · 1 hour',desc:'One focused, 1-on-1 session. Structured and tailored to your current level.',tags:['60 Min','1-on-1','All Levels','Pad Work']},{name:'10-Session Package',featured:true,badge:'Best Value',price:'SGD 1,200',unit:'/ 10 sessions',desc:'Commit to ten sessions. Includes a personalised training plan and WhatsApp support between sessions.',tags:['Save SGD 300','Training Plan','Technique Drills','WhatsApp Support']},{name:'20-Session Package',featured:false,badge:'',price:'SGD 2,000',unit:'/ 20 sessions',desc:'Twenty sessions for fighters serious about transformation — technique, conditioning and sparring prep.',tags:['Save SGD 1,000','Full Programme','Sparring Prep','Priority Scheduling']}]},
-  ks_reviews: [{id:'seed-001',name:'Olli',role:'Director — Finance',company:'',stars:5,text:"I've been training with Shakur for the past four years and in short he is an excellent coach. He's incredibly knowledgeable about boxing, extremely disciplined, and one of the hardest working people I know. Every session is structured, focused, and pushes me to improve. What really sets him apart is his passion for the sport — he genuinely cares about your progress and development. On top of that, he's just a great guy to be around, which makes training with him something I genuinely look forward to. I highly recommend him to anyone serious about improving their boxing.",tag:'Monthly Coaching',approved:true,date:'2025-01-01T00:00:00.000Z'}],
-  ks_contact: {blurb:'For sponsorships, fight promotions, media appearances, training bookings, and all professional enquiries — reach the team directly.',management:'Sword Camp Management, SG',email:'contact@khalidshakur.com',promoter:'One Championship Boxing'},
-  ks_socials: {insta:'https://www.instagram.com/khalidshakur__',linkedin:'https://www.linkedin.com/in/khalidshakur',youtube:'https://www.youtube.com/@khalidshakur',tiktok:'',facebook:''},
-  ks_footer: {copy:'© 2025 Khalid Shakur Boxing · Singapore. All rights reserved.'}
-};
-
-let SITEDATA = {};
-
-function get(key) {
-  return SITEDATA[key] !== undefined ? SITEDATA[key] : DEFAULTS[key];
+/* ── DATA HELPER ── */
+/* Reads from window.SITE_DATA (set by data.js). Falls back to hardcoded default passed in. */
+function ls(key, fallback) {
+  if (window.SITE_DATA && window.SITE_DATA[key] !== undefined) return window.SITE_DATA[key];
+  return fallback;
 }
-
-async function loadData() {
-  try {
-    const res = await fetch('data.json?_=' + Date.now());
-    if (res.ok) {
-      SITEDATA = await res.json();
-    }
-  } catch(e) {
-    // data.json not present — use defaults
-  }
-  initSite();
-}
-
-function initSite() {
 
 /* ── HERO ── */
 (function(){
-  const h=get('ks_hero');
+  const h=ls('ks_hero',{});
   if(h.nickname) document.getElementById('hero-nickname').textContent=h.nickname;
   if(h.eyebrow)  document.getElementById('hero-eyebrow').textContent=h.eyebrow;
   if(h.wins!==undefined)   document.getElementById('stat-wins').textContent=h.wins;
@@ -480,7 +447,7 @@ function initSite() {
 
 /* ── BIO ── */
 (function(){
-  const b=get('ks_bio');
+  const b=ls('ks_bio',{});
   if(b.heading) document.getElementById('bio-heading').innerHTML=b.heading.replace(/\n/,'<br>');
   if(b.para1)   document.getElementById('bio-para1').textContent=b.para1;
   if(b.para2)   document.getElementById('bio-para2').textContent=b.para2;
@@ -500,7 +467,12 @@ function initSite() {
     const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
     return m?m[1]:'';
   }
-  const vids=get('ks_videos');
+  const vids=ls('ks_videos',[
+    {label:'Highlights',ytUrl:'https://www.youtube.com/watch?v=RtI7bBzcPpQ',caption:"Khalid \"The Sword\" Shakur — Career Highlights · 2025"},
+    {label:'Bout 1 — Debut',ytUrl:'',caption:'Pro Debut · KO Win · 15 February 2025 · Singapore'},
+    {label:'Bout 2',ytUrl:'',caption:'Bout 2 · Win · 2025 · Singapore'},
+    {label:'Bout 3',ytUrl:'',caption:'Bout 3 · KO Win · 2025 · Singapore'}
+  ]);
   const tabsEl=document.getElementById('video-tabs');
   const panelsEl=document.getElementById('video-panels');
   vids.forEach((v,i)=>{
@@ -527,8 +499,12 @@ function initSite() {
 
 /* ── FIGHT RECORD TABLE ── */
 (function(){
-  const rows=get('ks_record');
-  const h=get('ks_hero');
+  const rows=ls('ks_record',[
+    {result:'W',opponent:'Robert Kopa',       method:'KO / Knockout Win',  rd:'—',date:'2025',        location:'Singapore'},
+    {result:'W',opponent:'Opponent — Bout 2', method:'— Verify on BoxRec', rd:'—',date:'2025',        location:'Singapore'},
+    {result:'W',opponent:'Opponent — Debut',  method:'KO / Knockout Win',  rd:'—',date:'15 Feb 2025', location:'Singapore'}
+  ]);
+  const h=ls('ks_hero',{});
   const w=h.wins??3,l=h.losses??0,d=h.draws??0;
   document.getElementById('record-title').textContent=`${w} — ${l} — ${d}`;
   document.getElementById('record-tbody').innerHTML=rows.map(r=>`
@@ -543,7 +519,7 @@ function initSite() {
 /* ── UPCOMING FIGHTS ── */
 (function(){
   const el=document.getElementById('fight-schedule');
-  const fights=get('ks_fights');
+  const fights=ls('ks_fights',[]);
   if(!fights.length){el.innerHTML='<div class="upcoming-empty">No fights currently scheduled — check back soon.</div>';return;}
   fights.sort((a,b)=>new Date(a.date)-new Date(b.date));
   el.innerHTML=fights.map(f=>{
@@ -564,14 +540,27 @@ function initSite() {
 
 /* ── GALLERY ── */
 (function(){
-  const photos=get('ks_gallery');
+  const photos=ls('ks_gallery',[
+    {url:'images/gallery-1.jpg',alt:'Khalid Shakur — Singapore flag and skyline'},
+    {url:'images/gallery-2.jpg',alt:'Khalid Shakur — Fight night walkout'},
+    {url:'images/gallery-3.jpg',alt:'Khalid Shakur — Post-fight victory'},
+    {url:'images/gallery-4-new.jpg',alt:'Khalid Shakur — Training at TDV Boxing Gym'},
+    {url:'images/train-action.jpg',alt:'Khalid Shakur — Bag work'}
+  ]);
   document.getElementById('gallery-grid').innerHTML=photos.map(p=>`
     <div class="gallery-item"><img src="${p.url}" alt="${p.alt||'Khalid Shakur'}"></div>`).join('');
 })();
 
 /* ── ACHIEVEMENTS ── */
 (function(){
-  const t=get('ks_titles');
+  const t=ls('ks_titles',{
+    tagline:'Sharp. Precise. Undefeated.',
+    cards:[
+      {icon:'🥊',org:'BoxRec',  name:'#1 Ranked Middleweight in Singapore',    year:'2025 — Present'},
+      {icon:'⭐',org:'Record',  name:'Undefeated — 3 Wins, 0 Losses',          year:'2025'},
+      {icon:'💥',org:'KO Rate', name:'67% Knockout Ratio — 2 KOs from 3 Bouts',year:'2025'}
+    ]
+  });
   document.getElementById('tagline').textContent=t.tagline;
   document.getElementById('titles-grid').innerHTML=t.cards.map(c=>`
     <div class="title-card">
@@ -584,7 +573,16 @@ function initSite() {
 
 /* ── TRAINING ── */
 (function(){
-  const d=get('ks_training');
+  const d=ls('ks_training',{
+    intro:"Train under Singapore's #1 ranked middleweight. Khalid brings the same precision, discipline, and structured approach to coaching that defines his fighting style. Whether you're stepping into a ring for the first time or sharpening your competitive edge — every session is built around your goals.",
+    quote:'"The sword is only as sharp as the discipline behind it. Every session, every round — that\'s where champions are made."',
+    note:'Sessions by appointment only. Available weekday evenings & weekend mornings.\n📍 Location: [Gym Name & Address — Confirm] · MRT: [Nearest Station — Confirm]',
+    packages:[
+      {name:'Single Session',     featured:false,badge:'',          price:'SGD 150',  unit:'/ session · 1 hour', desc:'One focused, 1-on-1 session. Structured and tailored to your current level.',                              tags:['60 Min','1-on-1','All Levels','Pad Work']},
+      {name:'10-Session Package', featured:true, badge:'Best Value', price:'SGD 1,200',unit:'/ 10 sessions',      desc:'Commit to ten sessions. Includes a personalised training plan and WhatsApp support between sessions.',     tags:['Save SGD 300','Training Plan','Technique Drills','WhatsApp Support']},
+      {name:'20-Session Package', featured:false,badge:'',          price:'SGD 2,000',unit:'/ 20 sessions',      desc:'Twenty sessions for fighters serious about transformation — technique, conditioning and sparring prep.',    tags:['Save SGD 1,000','Full Programme','Sparring Prep','Priority Scheduling']}
+    ]
+  });
   if(d.intro) document.getElementById('train-intro').textContent=d.intro;
   if(d.quote) document.getElementById('train-quote').textContent=d.quote;
   if(d.note)  document.getElementById('train-note').innerHTML=d.note.replace(/\n/g,'<br>');
@@ -601,7 +599,7 @@ function initSite() {
 
 /* ── CONTACT INFO ── */
 (function(){
-  const c=get('ks_contact');
+  const c=ls('ks_contact',{});
   if(c.blurb)      document.getElementById('contact-blurb').textContent=c.blurb;
   if(c.management) document.getElementById('ci-management').textContent=c.management;
   if(c.email)      document.getElementById('ci-email').textContent=c.email;
@@ -610,23 +608,26 @@ function initSite() {
 
 /* ── SOCIAL LINKS ── */
 (function(){
-  const s=get('ks_socials');
+  const s=ls('ks_socials',{});
   if(s.insta)    document.getElementById('link-insta').href=s.insta;
   if(s.linkedin) document.getElementById('link-linkedin').href=s.linkedin;
   if(s.youtube)  document.getElementById('link-youtube').href=s.youtube;
-  const fc=get('ks_footer');
+  const fc=ls('ks_footer',{});
   if(fc.copy) document.getElementById('footer-copy').textContent=fc.copy;
 })();
 
 /* ── REVIEWS ── */
 (function(){
-  const reviews = get('ks_reviews').filter(r=>r.approved);
-  const el=document.getElementById('reviews-grid');
-  if(!reviews.length){el.innerHTML='<div class="reviews-empty">Reviews coming soon — be the first to train with The Sword.</div>';return;}
-  // Show first 3, rest hidden with expand button
-  function makeCard(r){
-    return`<div class="review-card">
-      ${r.tag?`<div class="review-tag">${r.tag}</div>`:''}
+  const reviews = ls('ks_reviews', [
+    {id:'seed-001',name:'Olli',role:'Director — Finance',company:'',stars:5,
+     text:"I've been training with Shakur for the past four years and in short he is an excellent coach. He's incredibly knowledgeable about boxing, extremely disciplined, and one of the hardest working people I know. Every session is structured, focused, and pushes me to improve. What really sets him apart is his passion for the sport — he genuinely cares about your progress and development. On top of that, he's just a great guy to be around, which makes training with him something I genuinely look forward to. I highly recommend him to anyone serious about improving their boxing.",
+     tag:'Monthly Coaching',approved:true,date:'2025-01-01T00:00:00.000Z'}
+  ]).filter(r => r.approved);
+  const el = document.getElementById('reviews-grid');
+  if (!reviews.length) { el.innerHTML = '<div class="reviews-empty">Reviews coming soon — be the first to train with The Sword.</div>'; return; }
+  el.innerHTML = reviews.map(r => `
+    <div class="review-card">
+      ${r.tag ? `<div class="review-tag">${r.tag}</div>` : ''}
       <div class="review-stars">${'★'.repeat(r.stars||5)}${'☆'.repeat(5-(r.stars||5))}</div>
       <div class="review-text">${r.text}</div>
       <div class="review-author">
@@ -636,13 +637,7 @@ function initSite() {
           <div class="review-author-role">${r.role||'Training Client'}${r.company?' · '+r.company:''}</div>
         </div>
       </div>
-    </div>`;
-  }
-  el.innerHTML = reviews.map(makeCard).join('');
-  // Stats row
-  const avg = (reviews.reduce((s,r)=>s+(r.stars||5),0)/reviews.length).toFixed(1);
-  const statsEl = document.getElementById('reviews-stats');
-  if(statsEl) statsEl.innerHTML=`<span>${reviews.length} Review${reviews.length!==1?'s':''}</span><span style="color:var(--gold)">★ ${avg} avg</span>`;
+    </div>`).join('');
 })();
 
 /* ── CONTACT FORM ── */
@@ -663,18 +658,17 @@ document.getElementById('contact-form').addEventListener('submit',async function
 const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-} // end initSite()
-
-loadData();
-
 /* ── NAV ACTIVE ── */
 const secs=document.querySelectorAll('section[id]'),nlinks=document.querySelectorAll('.nav-links a');
 window.addEventListener('scroll',()=>{
   let cur='';
-  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)cur=s.id;});
-  nlinks.forEach(a=>{a.style.opacity=a.getAttribute('href')==='#'+cur?'1':'0.7';a.style.color=a.getAttribute('href')==='#'+cur?'var(--gold)':'';});
+  secs.forEach(s=>{ if(window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  nlinks.forEach(a=>{
+    const hit = a.getAttribute('href')==='#'+cur;
+    a.style.opacity = hit ? '1' : '0.7';
+    a.style.color   = hit ? 'var(--gold)' : '';
+  });
 });
--e 
 </script>
 </body>
 </html>
