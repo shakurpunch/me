@@ -23,24 +23,24 @@ window.SITE_DATA = {
   },
   "ks_videos": [
     {
-      "label": "Highlights",
+      "label": "A Professional Boxer's Life in Singapore",
       "ytUrl": "https://www.youtube.com/watch?v=RtI7bBzcPpQ",
-      "caption": "Khalid \"The Sword\" Shakur — Career Highlights · 2025"
+      "caption": "A Professional Boxer's Life in Singapore: How does it work?"
     },
     {
-      "label": "Bout 1 — Debut",
-      "ytUrl": "",
-      "caption": "Pro Debut · KO Win · 15 February 2025 · Singapore"
+      "label": "From Prison to Mission",
+      "ytUrl": "https://youtu.be/Hq4fFVfu4Y8",
+      "caption": "Why I Went To Prison, Finding Islam, & Chasing Success."
     },
     {
-      "label": "Bout 2",
-      "ytUrl": "",
-      "caption": "Bout 2 · Win · 2025 · Singapore"
+      "label": "Bout 1 - The Debut",
+      "ytUrl": "https://youtu.be/jlISZYMC0y8",
+      "caption": "Khalid Shakur's First Professional Fight"
     },
     {
-      "label": "Bout 3",
-      "ytUrl": "",
-      "caption": "Bout 3 · KO Win · 2025 · Singapore"
+      "label": "BOUT 2",
+      "ytUrl": "https://youtu.be/quclWmKzWlM",
+      "caption": "Khalid Shakur's Second Pro Fight Highlights"
     }
   ],
   "ks_record": [
