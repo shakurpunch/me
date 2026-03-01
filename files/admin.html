@@ -226,10 +226,10 @@
       <div class="card">
         <div class="card-title">Fighter Facts</div>
         <div class="grid2">
-          <div class="fg"><label>Born</label><input id="b-born" placeholder="Singapore · 1996"/></div>
+          <div class="fg"><label>Nationality</label><input id="b-nationality" placeholder="Singaporean"/></div>
           <div class="fg"><label>Weight Class</label><input id="b-weight" placeholder="Middleweight"/></div>
-          <div class="fg"><label>Reach</label><input id="b-reach" placeholder='76"'/></div>
-          <div class="fg"><label>Trainer</label><input id="b-trainer" placeholder="Coach Name"/></div>
+          <div class="fg"><label>Previous Trainer</label><input id="b-prev-trainer" placeholder="Coach Name"/></div>
+          <div class="fg"><label>Current Trainer</label><input id="b-trainer" placeholder="Coach Name"/></div>
           <div class="fg"><label>Stance</label><input id="b-stance" placeholder="Orthodox"/></div>
           <div class="fg"><label>Pro Since</label><input id="b-prosince" placeholder="2025"/></div>
         </div>
@@ -302,8 +302,11 @@
             <label>Scheduled Rounds</label>
             <select id="f-rounds"><option>4</option><option>6</option><option selected>8</option><option>10</option><option>12</option></select>
           </div>
-          <div class="fg span2"><label>Ticket URL</label><input type="url" id="f-ticket" placeholder="https://tickets.example.com"/></div>
-          <div class="fg span2"><label>Notes (shown in gold)</label><input id="f-notes" placeholder="e.g. Title Eliminator · Live on ESPN+"/></div>
+          <div class="fg span2"><label>Promoter(s)</label><input id="f-promoter" placeholder="e.g. Brother Boxing Promotion, Muay Champ Fitness"/></div>
+          <div class="fg span2"><label>Sponsor(s)</label><input id="f-sponsors" placeholder="e.g. Old Dog Barber Shop · Al-Sadi Restaurant"/></div>
+          <div class="fg span2"><label>Ticket Rates (one per line, e.g. Free Seating: SGD 75)</label><textarea id="f-ticket-rates" rows="3" placeholder="Free Seating: SGD 75&#10;Free Standing: SGD 55" style="resize:vertical;"></textarea></div>
+          <div class="fg"><label>Tickets Left (for urgency message — leave blank to hide)</label><input type="number" id="f-tickets-left" placeholder="e.g. 30" min="0"/></div>
+          <div class="fg"><label>Notes (shown in gold, optional)</label><input id="f-notes" placeholder="e.g. Title Eliminator · Live on ESPN+"/></div>
         </div>
         <div class="cb-row"><input type="checkbox" id="f-soldout"/><label for="f-soldout">Mark as Sold Out</label></div>
         <div class="btn-row"><button class="btn-gold" onclick="saveFight()">Save Fight</button><button class="btn-ghost" onclick="clearFightForm()">Clear</button></div>
@@ -520,7 +523,7 @@
 if (!window.SITE_DATA) {
   window.SITE_DATA = {
     ks_hero:{nickname:'"The Sword"',eyebrow:'Professional Boxer · Singapore · Middleweight',wins:3,losses:0,draws:0,kos:2,koRate:'67%'},
-    ks_bio:{heading:'Forged to\nFight',para1:"Born Sivaraj Manickam and fighting out of Singapore, Khalid Shakur made his professional debut on 15 February 2025 — entering the middleweight division with precision, purpose, and nothing to lose. At 29, he arrived with the sharpness of a seasoned competitor and a hunger no younger fighter could match.",para2:"Three fights in, three wins — including two knockouts — Shakur is already ranked #1 in Singapore and cutting through the region's middleweight scene with the controlled aggression that earned him his name: The Sword.",born:'Singapore · 1996',weight:'Middleweight',reach:'— Confirm',trainer:'— Confirm',stance:'— Confirm',proSince:'2025'},
+    ks_bio:{heading:'Forged to\nFight',para1:"Born Sivaraj Manickam and fighting out of Singapore, Khalid Shakur made his professional debut on 15 February 2025 — entering the middleweight division with precision, purpose, and nothing to lose. At 29, he arrived with the sharpness of a seasoned competitor and a hunger no younger fighter could match.",para2:"Three fights in, three wins — including two knockouts — Shakur is already ranked #1 in Singapore and cutting through the region's middleweight scene with the controlled aggression that earned him his name: The Sword.",nationality:'Singaporean',weight:'Middleweight',prevTrainer:'— Confirm',trainer:'— Confirm',stance:'— Confirm',proSince:'2025'},
     ks_videos:[{label:'Highlights',ytUrl:'https://www.youtube.com/watch?v=RtI7bBzcPpQ',caption:'Khalid "The Sword" Shakur — Career Highlights · 2025'},{label:'Bout 1 — Debut',ytUrl:'',caption:'Pro Debut · KO Win · 15 February 2025 · Singapore'},{label:'Bout 2',ytUrl:'',caption:'Bout 2 · Win · 2025 · Singapore'},{label:'Bout 3',ytUrl:'',caption:'Bout 3 · KO Win · 2025 · Singapore'}],
     ks_record:[{result:'W',opponent:'Robert Kopa',method:'KO / Knockout Win',rd:'—',date:'2025',location:'Singapore'},{result:'W',opponent:'Opponent — Bout 2',method:'— Verify on BoxRec',rd:'—',date:'2025',location:'Singapore'},{result:'W',opponent:'Opponent — Debut',method:'KO / Knockout Win',rd:'—',date:'15 Feb 2025',location:'Singapore'}],
     ks_fights:[],
@@ -616,7 +619,7 @@ function saveHero(){
 /* ── BIO ── */
 (function(){
   const b=get('ks_bio')||{};
-  const fd={'b-heading':'heading','b-p1':'para1','b-p2':'para2','b-born':'born','b-weight':'weight','b-reach':'reach','b-trainer':'trainer','b-stance':'stance','b-prosince':'proSince'};
+  const fd={'b-heading':'heading','b-p1':'para1','b-p2':'para2','b-nationality':'nationality','b-weight':'weight','b-prev-trainer':'prevTrainer','b-trainer':'trainer','b-stance':'stance','b-prosince':'proSince'};
   Object.entries(fd).forEach(([el,key])=>{const e=document.getElementById(el);if(e&&b[key])e.value=b[key];});
 })();
 function saveBio(){
@@ -624,9 +627,9 @@ function saveBio(){
     heading:document.getElementById('b-heading').value,
     para1:document.getElementById('b-p1').value,
     para2:document.getElementById('b-p2').value,
-    born:document.getElementById('b-born').value,
+    nationality:document.getElementById('b-nationality').value,
     weight:document.getElementById('b-weight').value,
-    reach:document.getElementById('b-reach').value,
+    prevTrainer:document.getElementById('b-prev-trainer').value,
     trainer:document.getElementById('b-trainer').value,
     stance:document.getElementById('b-stance').value,
     proSince:document.getElementById('b-prosince').value
@@ -659,12 +662,15 @@ function renderVids(){
         ${v.caption?`<div class="dr-preview">${v.caption}</div>`:''}
       </div>
       <div class="btn-row">
+        ${i>0?`<button class="btn-sm grey" onclick="moveVid(${i},-1)">↑ Up</button>`:''}
+        ${i<vids.length-1?`<button class="btn-sm grey" onclick="moveVid(${i},1)">↓ Down</button>`:''}
         <button class="btn-sm" onclick="editVid(${i})">Edit</button>
         <button class="btn-danger" onclick="delVid(${i})">Delete</button>
       </div>
     </div>`;
   }).join('');
 }
+function moveVid(i,dir){const a=get('ks_videos')||[];const ni=i+dir;if(ni<0||ni>=a.length)return;[a[i],a[ni]]=[a[ni],a[i]];set('ks_videos',a);renderVids();toast('✓ Reordered');}
 function saveVideo(){
   const label=document.getElementById('vid-label').value.trim();
   if(!label){toast('⚠ Tab label required');return;}
@@ -705,11 +711,14 @@ function renderRecord(){
         <div class="dr-meta">${r.method||'—'} · Rd ${r.rd||'—'} · ${r.date||'—'} · ${r.location||'—'}</div>
       </div>
       <div class="btn-row">
+        ${i>0?`<button class="btn-sm grey" onclick="moveRecord(${i},-1)">↑ Up</button>`:''}
+        ${i<rows.length-1?`<button class="btn-sm grey" onclick="moveRecord(${i},1)">↓ Down</button>`:''}
         <button class="btn-sm" onclick="editRecord(${i})">Edit</button>
         <button class="btn-danger" onclick="delRecord(${i})">Delete</button>
       </div>
     </div>`).join('');
 }
+function moveRecord(i,dir){const a=get('ks_record')||[];const ni=i+dir;if(ni<0||ni>=a.length)return;[a[i],a[ni]]=[a[ni],a[i]];set('ks_record',a);renderRecord();toast('✓ Reordered');}
 function saveRecord(){
   const opp=document.getElementById('rec-opponent').value.trim();
   if(!opp){toast('⚠ Opponent required');return;}
@@ -746,6 +755,10 @@ function renderFights(){
       <div class="dr-left">
         <div class="dr-title">VS. ${f.opponent} ${f.soldOut?'<span class="badge badge-sold">Sold Out</span>':''}</div>
         <div class="dr-meta">${d.toDateString()} · ${f.venue||'TBA'} · ${f.location} · ${f.weightClass} · ${f.rounds} rds</div>
+        ${f.promoter?`<div class="dr-preview">Promoter: ${f.promoter}</div>`:''}
+        ${f.sponsors?`<div class="dr-preview">Sponsors: ${f.sponsors}</div>`:''}
+        ${f.ticketRates?`<div class="dr-preview">🎟 ${f.ticketRates.replace(/\n/g,' · ')}</div>`:''}
+        ${f.ticketsLeft?`<div class="dr-preview" style="color:#e07b39">🔥 Only ${f.ticketsLeft} tickets left</div>`:''}
         ${f.notes?`<div class="dr-preview">${f.notes}</div>`:''}
       </div>
       <div class="btn-row">
@@ -761,7 +774,8 @@ function saveFight(){
   const opp=document.getElementById('f-opponent').value.trim(),dt=document.getElementById('f-date').value;
   if(!opp||!dt){toast('⚠ Opponent & Date required');return;}
   const fights=get('ks_fights')||[];const eid=document.getElementById('f-edit-id').value;
-  const obj={id:eid||Date.now().toString(),opponent:opp,date:dt,venue:document.getElementById('f-venue').value.trim(),location:document.getElementById('f-location').value.trim()||'Singapore',weightClass:document.getElementById('f-weight').value,rounds:document.getElementById('f-rounds').value,ticketUrl:document.getElementById('f-ticket').value.trim(),notes:document.getElementById('f-notes').value.trim(),soldOut:document.getElementById('f-soldout').checked};
+  const tl=document.getElementById('f-tickets-left').value.trim();
+  const obj={id:eid||Date.now().toString(),opponent:opp,date:dt,venue:document.getElementById('f-venue').value.trim(),location:document.getElementById('f-location').value.trim()||'Singapore',weightClass:document.getElementById('f-weight').value,rounds:document.getElementById('f-rounds').value,promoter:document.getElementById('f-promoter').value.trim(),sponsors:document.getElementById('f-sponsors').value.trim(),ticketRates:document.getElementById('f-ticket-rates').value.trim(),ticketsLeft:tl?parseInt(tl,10):null,notes:document.getElementById('f-notes').value.trim(),soldOut:document.getElementById('f-soldout').checked};
   if(eid){const i=fights.findIndex(f=>f.id===eid);if(i>-1)fights[i]=obj;}else fights.push(obj);
   set('ks_fights',fights);clearFightForm();renderFights();toast(eid?'✓ Fight updated':'✓ Fight added');
 }
@@ -774,14 +788,17 @@ function editFight(id){
   document.getElementById('f-location').value=f.location||'Singapore';
   document.getElementById('f-weight').value=f.weightClass||'Middleweight';
   document.getElementById('f-rounds').value=f.rounds||'8';
-  document.getElementById('f-ticket').value=f.ticketUrl||'';
+  document.getElementById('f-promoter').value=f.promoter||'';
+  document.getElementById('f-sponsors').value=f.sponsors||'';
+  document.getElementById('f-ticket-rates').value=f.ticketRates||'';
+  document.getElementById('f-tickets-left').value=f.ticketsLeft||'';
   document.getElementById('f-notes').value=f.notes||'';
   document.getElementById('f-soldout').checked=!!f.soldOut;
   document.getElementById('fight-form-title').textContent='Editing: VS. '+f.opponent;
 }
 function toggleSold(id){const a=get('ks_fights')||[];const f=a.find(f=>f.id===id);if(f){f.soldOut=!f.soldOut;set('ks_fights',a);renderFights();toast(f.soldOut?'Marked Sold Out':'Re-opened');}}
 function delFight(id){if(!confirm('Delete this fight?'))return;set('ks_fights',(get('ks_fights')||[]).filter(f=>f.id!==id));renderFights();toast('Fight removed');}
-function clearFightForm(){['f-edit-id','f-opponent','f-date','f-venue','f-ticket','f-notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-location').value='Singapore';document.getElementById('f-weight').value='Middleweight';document.getElementById('f-rounds').value='8';document.getElementById('f-soldout').checked=false;document.getElementById('fight-form-title').textContent='Add New Fight';}
+function clearFightForm(){['f-edit-id','f-opponent','f-date','f-venue','f-promoter','f-sponsors','f-ticket-rates','f-tickets-left','f-notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-location').value='Singapore';document.getElementById('f-weight').value='Middleweight';document.getElementById('f-rounds').value='8';document.getElementById('f-soldout').checked=false;document.getElementById('fight-form-title').textContent='Add New Fight';}
 renderFights();
 
 /* ── GALLERY ── */

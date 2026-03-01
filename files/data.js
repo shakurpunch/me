@@ -14,24 +14,14 @@ window.SITE_DATA = {
     "heading": "Forged to\nFight",
     "para1": "Born Sivaraj Manickam and fighting out of Singapore, Khalid Shakur made his professional debut on 15 February 2025 — entering the middleweight division with precision, purpose, and nothing to lose. At 29, he arrived with the sharpness of a seasoned competitor and a hunger no younger fighter could match.",
     "para2": "Three fights in, three wins — including two knockouts — Shakur is already ranked #1 in Singapore and cutting through the region's middleweight scene with the controlled aggression that earned him his name: The Sword.",
-    "born": "Singapore · 1996",
+    "nationality": "Singaporean",
     "weight": "Middleweight",
-    "reach": "— Confirm",
+    "prevTrainer": "— Confirm",
     "trainer": "— Confirm",
     "stance": "— Confirm",
     "proSince": "2025"
   },
   "ks_videos": [
-    {
-      "label": "A Professional Boxer's Life in Singapore",
-      "ytUrl": "https://www.youtube.com/watch?v=RtI7bBzcPpQ",
-      "caption": "A Professional Boxer's Life in Singapore: How does it work?"
-    },
-    {
-      "label": "From Prison to Mission",
-      "ytUrl": "https://youtu.be/Hq4fFVfu4Y8",
-      "caption": "Why I Went To Prison, Finding Islam, & Chasing Success."
-    },
     {
       "label": "Bout 1 - The Debut",
       "ytUrl": "https://youtu.be/jlISZYMC0y8",
@@ -41,31 +31,41 @@ window.SITE_DATA = {
       "label": "BOUT 2",
       "ytUrl": "https://youtu.be/quclWmKzWlM",
       "caption": "Khalid Shakur's Second Pro Fight Highlights"
+    },
+    {
+      "label": "A Professional Boxer's Life in Singapore",
+      "ytUrl": "https://www.youtube.com/watch?v=RtI7bBzcPpQ",
+      "caption": "A Professional Boxer's Life in Singapore: How does it work?"
+    },
+    {
+      "label": "From Prison to Mission",
+      "ytUrl": "https://youtu.be/Hq4fFVfu4Y8",
+      "caption": "Why I Went To Prison, Finding Islam, & Chasing Success."
     }
   ],
   "ks_record": [
     {
       "result": "W",
-      "opponent": "Robert Kopa",
-      "method": "KO / Knockout Win",
-      "rd": "—",
-      "date": "2025",
+      "opponent": "Robert Kopa - Bout 3",
+      "method": "TKO / Technical Knockout Win",
+      "rd": "3",
+      "date": "Nov 2025",
       "location": "Singapore"
     },
     {
       "result": "W",
       "opponent": "BENNY TAMAELA -  Bout 2",
-      "method": "— Verify on BoxRec",
-      "rd": "—",
-      "date": "2025",
+      "method": "Unanimous Decision",
+      "rd": "4",
+      "date": "JUL 2025",
       "location": "Singapore"
     },
     {
       "result": "W",
-      "opponent": "Opponent — Debut",
+      "opponent": "MUHAMMED ALFARIZI - Bout 1 - Debut",
       "method": "KO / Knockout Win",
-      "rd": "—",
-      "date": "15 Feb 2025",
+      "rd": "2",
+      "date": "Feb 2025",
       "location": "Singapore"
     }
   ],
@@ -78,8 +78,11 @@ window.SITE_DATA = {
       "location": "Singapore",
       "weightClass": "Welterweight",
       "rounds": "4",
-      "ticketUrl": "Reserve by filling the contact us form",
-      "notes": "Sponsors: old dog barber shop, Al-Sadi restaurant, Shafiq Affandi - PropNex Realtor",
+      "promoter": "Brother Boxing Promotion, Muay Champ Fitness",
+      "sponsors": "Old Dog Barber Shop · Al-Sadi Restaurant · Shafiq Affandi - PropNex Realtor",
+      "ticketRates": "Free Seating: SGD 75\nFree Standing: SGD 55",
+      "ticketsLeft": 30,
+      "notes": "",
       "soldOut": false
     }
   ],
