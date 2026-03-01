@@ -285,7 +285,7 @@
 
     <!-- ═══ UPCOMING FIGHTS ═══ -->
     <div class="page" id="page-upcoming">
-      <div class="ph"><h2>Upcoming Fights</h2><p>Manage the fight schedule. "Reserve Slot" button on the site scrolls visitors to the contact form with the fight pre-selected.</p></div>
+      <div class="ph"><h2>Upcoming Fights</h2><p>Manage the fight schedule shown publicly on the site</p></div>
       <div class="card">
         <div class="card-title" id="fight-form-title">Add New Fight</div>
         <input type="hidden" id="f-edit-id"/>
@@ -302,15 +302,11 @@
             <label>Scheduled Rounds</label>
             <select id="f-rounds"><option>4</option><option>6</option><option selected>8</option><option>10</option><option>12</option></select>
           </div>
-          <div class="fg span2"><label>Notes (shown in gold on site)</label><input id="f-notes" placeholder="e.g. Title Eliminator · Live on ESPN+"/></div>
-          <div class="fg"><label>Promoter(s)</label><input id="f-promoter" placeholder="e.g. Brother Boxing Promotion"/></div>
-          <div class="fg"><label>Sponsor(s)</label><input id="f-sponsors" placeholder="e.g. Old Dog Barber Shop · Al-Sadi Restaurant"/></div>
-          <div class="fg span2">
-            <label>Ticket Rates (free text — one per line)</label>
-            <textarea id="f-ticket-rates" style="min-height:60px;" placeholder="Free Seating: SGD 75&#10;Free Standing: SGD 55"></textarea>
-            <div class="hint">Each line shows as a separate row on the site. E.g. Free Seating: SGD 75</div>
-          </div>
-          <div class="fg"><label>Tickets Left (urgency counter — leave blank to hide)</label><input id="f-tickets-left" placeholder="e.g. 30"/></div>
+          <div class="fg span2"><label>Promoter(s)</label><input id="f-promoter" placeholder="e.g. Brother Boxing Promotion, Muay Champ Fitness"/></div>
+          <div class="fg span2"><label>Sponsor(s)</label><input id="f-sponsors" placeholder="e.g. Old Dog Barber Shop · Al-Sadi Restaurant"/></div>
+          <div class="fg span2"><label>Ticket Rates (one per line, e.g. Free Seating: SGD 75)</label><textarea id="f-ticket-rates" rows="3" placeholder="Free Seating: SGD 75&#10;Free Standing: SGD 55" style="resize:vertical;"></textarea></div>
+          <div class="fg"><label>Tickets Left (for urgency message — leave blank to hide)</label><input type="number" id="f-tickets-left" placeholder="e.g. 30" min="0"/></div>
+          <div class="fg"><label>Notes (shown in gold, optional)</label><input id="f-notes" placeholder="e.g. Title Eliminator · Live on ESPN+"/></div>
         </div>
         <div class="cb-row"><input type="checkbox" id="f-soldout"/><label for="f-soldout">Mark as Sold Out</label></div>
         <div class="btn-row"><button class="btn-gold" onclick="saveFight()">Save Fight</button><button class="btn-ghost" onclick="clearFightForm()">Clear</button></div>
@@ -753,10 +749,10 @@ function renderFights(){
       <div class="dr-left">
         <div class="dr-title">VS. ${f.opponent} ${f.soldOut?'<span class="badge badge-sold">Sold Out</span>':''}</div>
         <div class="dr-meta">${d.toDateString()} · ${f.venue||'TBA'} · ${f.location} · ${f.weightClass} · ${f.rounds} rds</div>
-        ${f.promoter?`<div class="dr-meta" style="margin-top:0.2rem;">🎙 Promoter: ${f.promoter}</div>`:''}
-        ${f.sponsors?`<div class="dr-meta" style="margin-top:0.2rem;">🤝 Sponsors: ${f.sponsors}</div>`:''}
+        ${f.promoter?`<div class="dr-preview">Promoter: ${f.promoter}</div>`:''}
+        ${f.sponsors?`<div class="dr-preview">Sponsors: ${f.sponsors}</div>`:''}
         ${f.ticketRates?`<div class="dr-preview">🎟 ${f.ticketRates.replace(/\n/g,' · ')}</div>`:''}
-        ${f.ticketsLeft?`<div class="dr-meta" style="color:#e8a87c;margin-top:0.2rem;">🔥 ${f.ticketsLeft} tickets left</div>`:''}
+        ${f.ticketsLeft?`<div class="dr-preview" style="color:#e07b39">🔥 Only ${f.ticketsLeft} tickets left</div>`:''}
         ${f.notes?`<div class="dr-preview">${f.notes}</div>`:''}
       </div>
       <div class="btn-row">
@@ -772,21 +768,8 @@ function saveFight(){
   const opp=document.getElementById('f-opponent').value.trim(),dt=document.getElementById('f-date').value;
   if(!opp||!dt){toast('⚠ Opponent & Date required');return;}
   const fights=get('ks_fights')||[];const eid=document.getElementById('f-edit-id').value;
-  const obj={
-    id:eid||Date.now().toString(),
-    opponent:opp,
-    date:dt,
-    venue:document.getElementById('f-venue').value.trim(),
-    location:document.getElementById('f-location').value.trim()||'Singapore',
-    weightClass:document.getElementById('f-weight').value,
-    rounds:document.getElementById('f-rounds').value,
-    notes:document.getElementById('f-notes').value.trim(),
-    promoter:document.getElementById('f-promoter').value.trim(),
-    sponsors:document.getElementById('f-sponsors').value.trim(),
-    ticketRates:document.getElementById('f-ticket-rates').value.trim(),
-    ticketsLeft:document.getElementById('f-tickets-left').value.trim(),
-    soldOut:document.getElementById('f-soldout').checked
-  };
+  const tl=document.getElementById('f-tickets-left').value.trim();
+  const obj={id:eid||Date.now().toString(),opponent:opp,date:dt,venue:document.getElementById('f-venue').value.trim(),location:document.getElementById('f-location').value.trim()||'Singapore',weightClass:document.getElementById('f-weight').value,rounds:document.getElementById('f-rounds').value,promoter:document.getElementById('f-promoter').value.trim(),sponsors:document.getElementById('f-sponsors').value.trim(),ticketRates:document.getElementById('f-ticket-rates').value.trim(),ticketsLeft:tl?parseInt(tl,10):null,notes:document.getElementById('f-notes').value.trim(),soldOut:document.getElementById('f-soldout').checked};
   if(eid){const i=fights.findIndex(f=>f.id===eid);if(i>-1)fights[i]=obj;}else fights.push(obj);
   set('ks_fights',fights);clearFightForm();renderFights();toast(eid?'✓ Fight updated':'✓ Fight added');
 }
@@ -799,17 +782,17 @@ function editFight(id){
   document.getElementById('f-location').value=f.location||'Singapore';
   document.getElementById('f-weight').value=f.weightClass||'Middleweight';
   document.getElementById('f-rounds').value=f.rounds||'8';
-  document.getElementById('f-notes').value=f.notes||'';
   document.getElementById('f-promoter').value=f.promoter||'';
   document.getElementById('f-sponsors').value=f.sponsors||'';
   document.getElementById('f-ticket-rates').value=f.ticketRates||'';
   document.getElementById('f-tickets-left').value=f.ticketsLeft||'';
+  document.getElementById('f-notes').value=f.notes||'';
   document.getElementById('f-soldout').checked=!!f.soldOut;
   document.getElementById('fight-form-title').textContent='Editing: VS. '+f.opponent;
 }
 function toggleSold(id){const a=get('ks_fights')||[];const f=a.find(f=>f.id===id);if(f){f.soldOut=!f.soldOut;set('ks_fights',a);renderFights();toast(f.soldOut?'Marked Sold Out':'Re-opened');}}
 function delFight(id){if(!confirm('Delete this fight?'))return;set('ks_fights',(get('ks_fights')||[]).filter(f=>f.id!==id));renderFights();toast('Fight removed');}
-function clearFightForm(){['f-edit-id','f-opponent','f-date','f-venue','f-notes','f-promoter','f-sponsors','f-ticket-rates','f-tickets-left'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-location').value='Singapore';document.getElementById('f-weight').value='Middleweight';document.getElementById('f-rounds').value='8';document.getElementById('f-soldout').checked=false;document.getElementById('fight-form-title').textContent='Add New Fight';}
+function clearFightForm(){['f-edit-id','f-opponent','f-date','f-venue','f-promoter','f-sponsors','f-ticket-rates','f-tickets-left','f-notes'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-location').value='Singapore';document.getElementById('f-weight').value='Middleweight';document.getElementById('f-rounds').value='8';document.getElementById('f-soldout').checked=false;document.getElementById('fight-form-title').textContent='Add New Fight';}
 renderFights();
 
 /* ── GALLERY ── */

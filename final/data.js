@@ -78,11 +78,11 @@ window.SITE_DATA = {
       "location": "Singapore",
       "weightClass": "Welterweight",
       "rounds": "4",
-      "notes": "",
-      "promoter": "Brother Boxing Promotion · Muay Champ Fitness",
-      "sponsors": "Old Dog Barber Shop · Al-Sadi Restaurant · Shafiq Affandi PropNex",
+      "promoter": "Brother Boxing Promotion, Muay Champ Fitness",
+      "sponsors": "Old Dog Barber Shop · Al-Sadi Restaurant · Shafiq Affandi - PropNex Realtor",
       "ticketRates": "Free Seating: SGD 75\nFree Standing: SGD 55",
-      "ticketsLeft": "30",
+      "ticketsLeft": 30,
+      "notes": "",
       "soldOut": false
     }
   ],

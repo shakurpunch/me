@@ -98,7 +98,7 @@
     /* UPCOMING */
     #upcoming{background:var(--bg2);padding:7rem 3rem;}
     .upcoming-inner{max-width:900px;margin:0 auto;}
-    .fight-card{display:grid;grid-template-columns:120px 1fr auto;align-items:start;gap:2rem;padding:2rem 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .fight-card{display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:2rem;padding:2rem 0;border-bottom:1px solid rgba(255,255,255,0.06);}
     .fight-card:last-child{border-bottom:none;}
     .fight-date-block{text-align:center;border:1px solid rgba(201,168,76,0.25);padding:1rem;}
     .fight-date-day{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:var(--gold);}
@@ -107,15 +107,16 @@
     .fight-info-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;margin-bottom:0.4rem;}
     .fight-info-meta{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
     .fight-info-meta em{color:var(--gold);font-style:normal;margin-right:0.4rem;}
-    .fight-ticket-rates{font-size:0.72rem;letter-spacing:0.08em;color:rgba(245,240,232,0.55);margin-top:0.5rem;padding:0.6rem 0.8rem;border-left:2px solid rgba(201,168,76,0.3);line-height:1.7;}
-    .fight-sponsors{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:0.5rem;}
-    .fight-sponsors em{color:rgba(201,168,76,0.7);font-style:normal;}
-    .fight-ticket-col{display:flex;flex-direction:column;align-items:flex-end;gap:0.6rem;padding-top:0.3rem;}
-    .fight-ticket-btn{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;padding:0.8rem 1.5rem;background:var(--gold);color:#000;border:none;cursor:pointer;white-space:nowrap;transition:background 0.2s,transform 0.2s;display:inline-block;}
-    .fight-ticket-btn:hover{background:var(--gold-light);transform:translateY(-1px);}
-    .fight-ticket-btn.sold-out{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.1);cursor:default;transform:none;}
-    .fight-urgency{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:#e8a87c;text-align:right;white-space:nowrap;}
+    .fight-ticket-btn{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;padding:0.8rem 1.5rem;background:transparent;border:1px solid rgba(201,168,76,0.4);color:var(--gold);text-decoration:none;white-space:nowrap;transition:background 0.2s;display:inline-block;}
+    .fight-ticket-btn:hover{background:rgba(201,168,76,0.1);}
+    .fight-ticket-btn.sold-out{color:var(--muted);border-color:rgba(255,255,255,0.1);pointer-events:none;}
     .upcoming-empty{text-align:center;padding:4rem 0;font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--muted);font-style:italic;}
+    .fight-ticket-rates{font-size:0.7rem;letter-spacing:0.1em;color:var(--muted);margin-top:0.4rem;line-height:1.6;}
+    .fight-ticket-rates strong{color:var(--gold);font-style:normal;}
+    .fight-promoter-sponsors{font-size:0.65rem;letter-spacing:0.1em;color:var(--muted);margin-top:0.35rem;opacity:0.8;}
+    .fight-promoter-sponsors em{color:rgba(201,168,76,0.7);font-style:normal;}
+    .fight-urgency{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#e07b39;margin-top:0.5rem;font-weight:700;}
+    .fight-actions{display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;}
 
     /* GALLERY */
     #gallery{padding:0;background:var(--bg);}
@@ -234,9 +235,8 @@
       #fights,#video,#upcoming,#train,#reviews,#titles{padding-left:1.5rem;padding-right:1.5rem;}
       footer{padding:2rem 1.5rem;}
       .footer-inner{flex-direction:column;align-items:flex-start;}
-      .fight-card{grid-template-columns:90px 1fr;align-items:start;}
-      .fight-ticket-col{align-items:flex-start;}
-      .fight-urgency{text-align:left;}
+      .fight-card{grid-template-columns:90px 1fr;}
+      .fight-ticket-btn{grid-column:span 2;}
       .train-accent-bar{display:none;}
       .reviews-header{flex-direction:column;align-items:flex-start;}
     }
@@ -526,61 +526,52 @@ function ls(key, fallback) {
 (function(){
   const el=document.getElementById('fight-schedule');
   const fights=ls('ks_fights',[]);
-  if(!fights.length){el.innerHTML='<div class="upcoming-empty">No fights currently scheduled — check back soon.</div>';return;}
-  fights.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const typeSelect=document.getElementById('c-type');
 
-  /* Inject "Reserve Slot for fight on DATE" options into the contact form */
-  const sel=document.getElementById('c-type');
-  fights.forEach(f=>{
-    if(!f.soldOut){
-      const d=new Date(f.date);
-      const label=`Reserve Slot — Fight on ${d.toLocaleDateString('en-SG',{day:'numeric',month:'long',year:'numeric'})} vs ${f.opponent}`;
-      const opt=document.createElement('option');
-      opt.value=label;opt.textContent=label;
-      sel.insertBefore(opt,sel.options[1]); /* insert near top */
-    }
+  // Inject "Reserve Slot" options into contact form for each upcoming fight
+  fights.filter(f=>!f.soldOut).sort((a,b)=>new Date(a.date)-new Date(b.date)).forEach(f=>{
+    const d=new Date(f.date);
+    const label=`Reserve Slot — Fight on ${d.toLocaleDateString('en-SG',{day:'numeric',month:'long',year:'numeric'})} vs ${f.opponent||'TBA'}`;
+    const opt=document.createElement('option');
+    opt.value=label;opt.textContent=label;
+    // Insert before "Training / Coaching" (index 1)
+    typeSelect.insertBefore(opt,typeSelect.options[1]);
   });
 
+  if(!fights.length){el.innerHTML='<div class="upcoming-empty">No fights currently scheduled — check back soon.</div>';return;}
+  fights.sort((a,b)=>new Date(a.date)-new Date(b.date));
   el.innerHTML=fights.map(f=>{
     const d=new Date(f.date);
-    const dateLabel=d.toLocaleDateString('en-SG',{day:'numeric',month:'long',year:'numeric'});
-
-    /* Urgency line */
-    const urgency = (!f.soldOut && f.ticketsLeft) ? `🔥 Selling Fast — Only ${f.ticketsLeft} Tickets Left` : '';
-
-    /* Ticket rates */
-    const ratesHtml = f.ticketRates
-      ? `<div class="fight-ticket-rates">🎟 ${f.ticketRates.replace(/\n/g,'<br>')}</div>`
+    const ratesHtml=f.ticketRates
+      ? `<div class="fight-ticket-rates">🎟 ${f.ticketRates.split('\n').map(r=>r.trim()).filter(Boolean).join(' &nbsp;·&nbsp; ')}</div>`
       : '';
-
-    /* Promoter & sponsors */
-    const promoLine = [
-      f.promoter ? `<em>Promoted by</em> ${f.promoter}` : '',
-      f.sponsors  ? `<em>Sponsored by</em> ${f.sponsors}` : ''
-    ].filter(Boolean).join(' &nbsp;·&nbsp; ');
-    const promoHtml = promoLine ? `<div class="fight-sponsors">${promoLine}</div>` : '';
-
-    /* Reserve button — scrolls to contact form and pre-selects the fight */
-    const reserveJs = f.soldOut ? '' :
-      `onclick="(function(){document.getElementById('c-type').value='Reserve Slot — Fight on ${dateLabel} vs ${f.opponent}';document.getElementById('contact').scrollIntoView({behavior:'smooth'});})();"`;
-
+    const promoHtml=(f.promoter||f.sponsors)
+      ? `<div class="fight-promoter-sponsors">${f.promoter?`<em>Promoter:</em> ${f.promoter}`:''}${f.promoter&&f.sponsors?' &nbsp;|&nbsp; ':''}${f.sponsors?`<em>Sponsors:</em> ${f.sponsors}`:''}</div>`
+      : '';
+    const urgencyHtml=(f.ticketsLeft&&!f.soldOut)
+      ? `<div class="fight-urgency">🔥 Selling Fast — Only ${f.ticketsLeft} Tickets Left</div>`
+      : '';
+    const btnHtml=f.soldOut
+      ? `<a class="fight-ticket-btn sold-out">Sold Out</a>`
+      : `<a class="fight-ticket-btn" href="#contact" onclick="
+          var sel=document.getElementById('c-type');
+          var val='Reserve Slot — Fight on ${new Date(f.date).toLocaleDateString('en-SG',{day:'numeric',month:'long',year:'numeric'})} vs ${(f.opponent||'TBA').replace(/'/g,"\\'")}';
+          for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===val){sel.selectedIndex=i;break;}}
+          setTimeout(function(){document.getElementById('c-name').focus();},400);
+        ">Reserve Slot →</a>`;
     return`<div class="fight-card">
-      <div class="fight-date-block">
-        <div class="fight-date-day">${d.getDate()}</div>
-        <div class="fight-date-month">${d.toLocaleString('en-SG',{month:'short'}).toUpperCase()}</div>
-        <div class="fight-date-year">${d.getFullYear()}</div>
-      </div>
+      <div class="fight-date-block"><div class="fight-date-day">${d.getDate()}</div><div class="fight-date-month">${d.toLocaleString('en-SG',{month:'short'}).toUpperCase()}</div><div class="fight-date-year">${d.getFullYear()}</div></div>
       <div>
         <div class="fight-info-title">VS. ${f.opponent||'TBA'}</div>
         <div class="fight-info-meta"><em>📍</em>${f.venue||'TBA'} · ${f.location||'Singapore'}</div>
         <div class="fight-info-meta" style="margin-top:0.3rem"><em>🥊</em>${f.weightClass||'Middleweight'} · ${f.rounds||'—'} Rounds</div>
-        ${f.notes?`<div class="fight-info-meta" style="margin-top:0.3rem;color:var(--gold)">${f.notes}</div>`:''}
         ${ratesHtml}
         ${promoHtml}
+        ${f.notes?`<div class="fight-info-meta" style="margin-top:0.3rem;color:var(--gold)">${f.notes}</div>`:''}
       </div>
-      <div class="fight-ticket-col">
-        <button class="fight-ticket-btn${f.soldOut?' sold-out':''}" ${reserveJs}>${f.soldOut?'Sold Out':'Reserve Slot →'}</button>
-        ${urgency?`<div class="fight-urgency">${urgency}</div>`:''}
+      <div class="fight-actions">
+        ${btnHtml}
+        ${urgencyHtml}
       </div>
     </div>`;
   }).join('');
@@ -709,14 +700,9 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 /* ── NAV ACTIVE ── */
 const secs=document.querySelectorAll('section[id]'),nlinks=document.querySelectorAll('.nav-links a');
 window.addEventListener('scroll',()=>{
-window.addEventListener('scroll',()=>{
   let cur='';
-  secs.forEach(s=>{ if(window.scrollY >= s.offsetTop - 120) cur = s.id; });
-  nlinks.forEach(a=>{
-    const hit = a.getAttribute('href')==='#'+cur;
-    a.style.opacity = hit ? '1' : '0.7';
-    a.style.color   = hit ? 'var(--gold)' : '';
-  });
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)cur=s.id;});
+  nlinks.forEach(a=>{a.style.opacity=a.getAttribute('href')==='#'+cur?'1':'0.7';a.style.color=a.getAttribute('href')==='#'+cur?'var(--gold)':'';});
 });
 </script>
 </body>
