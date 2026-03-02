@@ -134,7 +134,7 @@ window.SITE_DATA = {
   "ks_training": {
     "intro": "Train under Singapore's #1 ranked middleweight. Khalid brings the same precision, discipline, and structured approach to coaching that defines his fighting style. Whether you're stepping into a ring for the first time or sharpening your competitive edge — every session is built around your goals.",
     "quote": "\"The sword is only as sharp as the discipline behind it. Every session, every round — that's where champions are made.\"",
-    "note": "Sessions by appointment only. Available weekday evenings & weekend mornings.\n📍 Location: [Gym Name & Address — Confirm] · MRT: [Nearest Station — Confirm]",
+    "note": "Sessions by appointment only. Available weekdays & weekends.\n📍 Location: Contact us for the location. Personal Training Available at Client's location too.",
     "packages": [
       {
         "name": "Single Session",
