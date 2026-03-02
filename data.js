@@ -72,7 +72,7 @@ window.SITE_DATA = {
   "ks_fights": [
     {
       "id": "1772343034285",
-      "opponent": "Ratchanon Kromsuk",
+      "opponent": "Ibrahim Aroby",
       "date": "2026-04-18",
       "venue": "FooChow Building",
       "location": "Singapore",
