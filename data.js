@@ -71,21 +71,6 @@ window.SITE_DATA = {
   ],
   "ks_fights": [
     {
-      "id": "1772343034285",
-      "opponent": "Ratchanon Kromsuk",
-      "date": "2026-04-18",
-      "venue": "FooChow Building",
-      "location": "Singapore",
-      "weightClass": "Welterweight",
-      "rounds": "4",
-      "promoter": "Brother Boxing Promotion, Muay Champ Fitness",
-      "sponsors": "Old Dog Barber Shop · Al-Sadi Restaurant · Shafiq Affandi - PropNex Realtor",
-      "ticketRates": "Free Seating: SGD 75\nFree Standing: SGD 55",
-      "ticketsLeft": 30,
-      "notes": "",
-      "soldOut": false
-    },
-    {
       "id": "1772410307582",
       "opponent": "Ibrahim Aroby",
       "date": "2026-04-18",
