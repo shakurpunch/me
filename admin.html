@@ -561,8 +561,14 @@ function importDataJs(){
       const data = JSON.parse(text);
       if (!confirm('Load this data.js? It will replace your current session data.')) return;
       Object.assign(D, data);
-      toast('✓ Imported — reloading admin...');
-      setTimeout(()=>location.reload(), 600);
+      // Re-render all sections without a page reload so data persists
+      renderFights(); renderVids(); renderRecord(); renderGallery(); renderAch(); renderPkgs(); renderRevs(); refreshDash();
+      // Re-populate form fields from imported data
+      (function(){const h=get('ks_hero')||{};const fd={'h-nick':'nickname','h-eyebrow':'eyebrow','h-wins':'wins','h-losses':'losses','h-draws':'draws','h-kos':'kos','h-korate':'koRate'};Object.entries(fd).forEach(([el,key])=>{const e=document.getElementById(el);if(e&&h[key]!==undefined)e.value=h[key];});})();
+      (function(){const b=get('ks_bio')||{};const fd={'b-heading':'heading','b-p1':'para1','b-p2':'para2','b-nationality':'nationality','b-weight':'weight','b-prev-trainer':'prevTrainer','b-trainer':'trainer','b-stance':'stance','b-prosince':'proSince'};Object.entries(fd).forEach(([el,key])=>{const e=document.getElementById(el);if(e&&b[key])e.value=b[key];});})();
+      (function(){const c=get('ks_contact')||{};if(c.blurb)document.getElementById('ci-blurb').value=c.blurb;if(c.management)document.getElementById('ci-management').value=c.management;if(c.email)document.getElementById('ci-email').value=c.email;if(c.promoter)document.getElementById('ci-promoter').value=c.promoter;const fc=get('ks_footer')||{};if(fc.copy)document.getElementById('ci-copy').value=fc.copy;})();
+      (function(){const s=get('ks_socials')||{};if(s.insta)document.getElementById('s-insta').value=s.insta;if(s.linkedin)document.getElementById('s-linkedin').value=s.linkedin;if(s.youtube)document.getElementById('s-youtube').value=s.youtube;if(s.tiktok)document.getElementById('s-tiktok').value=s.tiktok;if(s.facebook)document.getElementById('s-facebook').value=s.facebook;})();
+      toast('✓ data.js imported — all sections updated');
     } catch(err){ toast('⚠ Could not read file — make sure it is a valid data.js'); }
   };
   reader.readAsText(file);
@@ -945,11 +951,11 @@ renderPkgs();
 let curStars=5;
 function setStar(n){curStars=n;document.getElementById('r-stars').value=n;document.querySelectorAll('.star-btn').forEach(b=>b.classList.toggle('on',parseInt(b.dataset.v)<=n));}
 function renderRevs(){
-  const reviews=(get('ks_reviews')||[]).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const reviews=get('ks_reviews')||[];  // display in array order — user controls via ↑↓
   document.getElementById('r-count').textContent=`(${reviews.length} total · ${reviews.filter(r=>r.approved).length} approved)`;
   const el=document.getElementById('r-list');
   if(!reviews.length){el.innerHTML='<div class="empty">No reviews yet.</div>';return;}
-  el.innerHTML=reviews.map(r=>`
+  el.innerHTML=reviews.map((r,i)=>`
     <div class="dr">
       <div class="dr-left">
         <div class="dr-title">${r.name} ${'★'.repeat(r.stars||5)} <span class="badge ${r.approved?'badge-ok':'badge-pending'}">${r.approved?'Published':'Pending'}</span> ${r.tag?`<span class="badge" style="border:1px solid rgba(255,255,255,0.1);color:var(--muted)">${r.tag}</span>`:''}</div>
@@ -957,6 +963,8 @@ function renderRevs(){
         <div class="dr-preview">"${r.text.slice(0,120)}${r.text.length>120?'…':''}"</div>
       </div>
       <div class="btn-row">
+        ${i>0?`<button class="btn-sm grey" onclick="moveRev(${i},-1)">↑ Up</button>`:''}
+        ${i<reviews.length-1?`<button class="btn-sm grey" onclick="moveRev(${i},1)">↓ Down</button>`:''}
         <button class="btn-sm" onclick="editRev('${r.id}')">Edit</button>
         <button class="btn-sm ${r.approved?'grey':''}" onclick="toggleRev('${r.id}')">${r.approved?'Unpublish':'Approve'}</button>
         <button class="btn-danger" onclick="delRev('${r.id}')">Delete</button>
@@ -964,6 +972,7 @@ function renderRevs(){
     </div>`).join('');
   refreshDash();
 }
+function moveRev(i,dir){const a=get('ks_reviews')||[];const ni=i+dir;if(ni<0||ni>=a.length)return;[a[i],a[ni]]=[a[ni],a[i]];set('ks_reviews',a);renderRevs();toast('✓ Reordered');}
 function saveReview(){
   const name=document.getElementById('r-name').value.trim(),text=document.getElementById('r-text').value.trim();
   if(!name||!text){toast('⚠ Name & Review text required');return;}

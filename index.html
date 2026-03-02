@@ -172,8 +172,8 @@
     .reviews-nav-btn:hover{background:rgba(201,168,76,0.1);border-color:var(--gold);}
     .reviews-nav-btn:disabled{opacity:0.25;cursor:default;pointer-events:none;}
     .reviews-counter{font-size:0.65rem;letter-spacing:0.25em;color:var(--muted);min-width:3.5rem;text-align:center;}
-    .reviews-viewport{overflow:hidden;position:relative;}
-    .reviews-track{display:flex;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);}
+    .reviews-viewport{overflow:hidden;position:relative;transition:height 0.5s cubic-bezier(0.4,0,0.2,1);}
+    .reviews-track{display:flex;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);align-items:flex-start;}
     .review-card{min-width:100%;background:rgba(255,255,255,0.02);border:1px solid rgba(201,168,76,0.12);padding:2.5rem;position:relative;box-sizing:border-box;}
     .review-stars{color:var(--gold);font-size:0.9rem;letter-spacing:0.15em;margin-bottom:1.2rem;}
     .review-text{font-family:'Cormorant Garamond',serif;font-size:1.15rem;line-height:1.8;color:rgba(245,240,232,0.85);font-style:italic;margin-bottom:2rem;}
@@ -388,7 +388,7 @@
         <button class="reviews-nav-btn" id="rev-next" aria-label="Next review">&#8594;</button>
       </div>
     </div>
-    <div class="reviews-viewport reveal">
+    <div class="reviews-viewport reveal" id="reviews-viewport">
       <div class="reviews-track" id="reviews-track"></div>
     </div>
     <div class="reviews-dots" id="reviews-dots"></div>
@@ -451,7 +451,11 @@
 /* ── DATA HELPER ── */
 /* Reads from window.SITE_DATA (set by data.js). Falls back to hardcoded default passed in. */
 function ls(key, fallback) {
-  if (window.SITE_DATA && window.SITE_DATA[key] !== undefined) return window.SITE_DATA[key];
+  if (window.SITE_DATA && window.SITE_DATA[key] !== undefined) {
+    const v = window.SITE_DATA[key];
+    // Return a shallow clone of arrays so callers can sort/mutate freely
+    return Array.isArray(v) ? v.slice() : v;
+  }
   return fallback;
 }
 
@@ -541,16 +545,16 @@ function ls(key, fallback) {
 /* ── UPCOMING FIGHTS ── */
 (function(){
   const el=document.getElementById('fight-schedule');
-  const fights=ls('ks_fights',[]);
+  const fights=ls('ks_fights',[]);  // ls() now returns a clone - safe to sort
   const typeSelect=document.getElementById('c-type');
 
   // Inject "Reserve Slot" options into contact form for each upcoming fight
-  fights.filter(f=>!f.soldOut).sort((a,b)=>new Date(a.date)-new Date(b.date)).forEach(f=>{
+  const upcoming=[...fights].filter(f=>!f.soldOut).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  upcoming.forEach(f=>{
     const d=new Date(f.date);
     const label=`Reserve Slot — Fight on ${d.toLocaleDateString('en-SG',{day:'numeric',month:'long',year:'numeric'})} vs ${f.opponent||'TBA'}`;
     const opt=document.createElement('option');
     opt.value=label;opt.textContent=label;
-    // Insert before "Training / Coaching" (index 1)
     typeSelect.insertBefore(opt,typeSelect.options[1]);
   });
 
@@ -679,16 +683,18 @@ function ls(key, fallback) {
      tag:'Monthly Coaching',approved:true,date:'2025-01-01T00:00:00.000Z'}
   ]).filter(r => r.approved);
 
-  const track   = document.getElementById('reviews-track');
-  const dotsEl  = document.getElementById('reviews-dots');
-  const counter = document.getElementById('rev-counter');
-  const btnPrev = document.getElementById('rev-prev');
-  const btnNext = document.getElementById('rev-next');
+  const viewport = document.getElementById('reviews-viewport');
+  const track    = document.getElementById('reviews-track');
+  const dotsEl   = document.getElementById('reviews-dots');
+  const counter  = document.getElementById('rev-counter');
+  const btnPrev  = document.getElementById('rev-prev');
+  const btnNext  = document.getElementById('rev-next');
 
   if (!reviews.length) {
     track.innerHTML = '<div class="review-card"><div class="reviews-empty">Reviews coming soon — be the first to train with The Sword.</div></div>';
     dotsEl.style.display = 'none';
     btnPrev.style.display = btnNext.style.display = 'none';
+    setHeight(0);
     return;
   }
 
@@ -699,7 +705,7 @@ function ls(key, fallback) {
     <div class="review-card">
       ${r.tag ? `<div class="review-tag">${r.tag}</div>` : ''}
       <div class="review-stars">${'★'.repeat(r.stars||5)}${'☆'.repeat(5-(r.stars||5))}</div>
-      <div class="review-text">${r.text}</div>
+      <div class="review-text">${r.text.replace(/\n/g,'<br>')}</div>
       <div class="review-author">
         <div class="review-avatar">${(r.name||'?')[0].toUpperCase()}</div>
         <div>
@@ -720,13 +726,21 @@ function ls(key, fallback) {
     dotsEl.style.display = 'none';
   }
 
+  // Dynamically set viewport height to match current card's natural height
+  function setHeight(idx) {
+    const cards = track.querySelectorAll('.review-card');
+    if (!cards[idx]) return;
+    // Temporarily make card visible to measure its scrollHeight
+    const h = cards[idx].scrollHeight;
+    viewport.style.height = h + 'px';
+  }
+
   function goTo(idx) {
     cur = (idx + reviews.length) % reviews.length;
     track.style.transform = `translateX(-${cur * 100}%)`;
     counter.textContent = `${cur + 1} / ${reviews.length}`;
-    btnPrev.disabled = false;
-    btnNext.disabled = false;
     dotsEl.querySelectorAll('.reviews-dot').forEach((d,i) => d.classList.toggle('active', i===cur));
+    setHeight(cur);
   }
 
   btnPrev.addEventListener('click', () => goTo(cur - 1));
@@ -743,8 +757,12 @@ function ls(key, fallback) {
     if (Math.abs(dx) > 40) goTo(dx < 0 ? cur + 1 : cur - 1);
   }, {passive:true});
 
-  // Init counter
+  // Init — set height after fonts/layout settle
   counter.textContent = `1 / ${reviews.length}`;
+  // Use requestAnimationFrame to ensure DOM has rendered before measuring
+  requestAnimationFrame(() => requestAnimationFrame(() => setHeight(0)));
+  // Also re-measure on resize (text reflows)
+  window.addEventListener('resize', () => setHeight(cur));
 })();
 
 /* ── CONTACT FORM ── */
