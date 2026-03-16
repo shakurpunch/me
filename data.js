@@ -72,7 +72,7 @@ window.SITE_DATA = {
   "ks_fights": [
     {
       "id": "1772410307582",
-      "opponent": "Rivo Kundimang",
+      "opponent": "Bambang Rusiadi",
       "date": "2026-04-18",
       "venue": "Foochow Building",
       "location": "Singapore",
