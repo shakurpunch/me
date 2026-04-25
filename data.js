@@ -8,7 +8,7 @@ window.SITE_DATA = {
     "losses": 0,
     "draws": 0,
     "kos": 2,
-    "koRate": "67%"
+    "koRate": "50%"
   },
   "ks_bio": {
     "heading": "Forged toFight",
