@@ -4,7 +4,7 @@ window.SITE_DATA = {
   "ks_hero": {
     "nickname": "\"The Sword\"",
     "eyebrow": "Professional Boxer · Singapore · Middleweight",
-    "wins": 3,
+    "wins": 4,
     "losses": 0,
     "draws": 0,
     "kos": 2,
@@ -46,6 +46,14 @@ window.SITE_DATA = {
   "ks_record": [
     {
       "result": "W",
+      "opponent": "Bambang Rusiadi - BOUT 4",
+      "method": "Unanimous Decision",
+      "rd": "4",
+      "date": "18 April 2026",
+      "location": "Singapore"
+    },
+    {
+      "result": "W",
       "opponent": "Robert Kopa - Bout 3",
       "method": "TKO / Technical Knockout Win",
       "rd": "3",
@@ -69,23 +77,7 @@ window.SITE_DATA = {
       "location": "Singapore"
     }
   ],
-  "ks_fights": [
-    {
-      "id": "1772410307582",
-      "opponent": "Bambang Rusiadi",
-      "date": "2026-04-18",
-      "venue": "Foochow Building",
-      "location": "Singapore",
-      "weightClass": "Middleweight",
-      "rounds": "4",
-      "promoter": "Brother Boxing Promotion, Muay Champ Fitness",
-      "sponsors": "Old Dog Barber Shop · Al-Sadi Restaurant · Shafiq Affandi - PropNex Realtor",
-      "ticketRates": "Free Seating: SGD 75 · Free Standing: SGD 55",
-      "ticketsLeft": 30,
-      "notes": "",
-      "soldOut": false
-    }
-  ],
+  "ks_fights": [],
   "ks_gallery": [
     {
       "url": "images/gallery-1.jpg",
